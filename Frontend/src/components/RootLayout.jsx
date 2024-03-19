@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router';
+import { Outlet } from 'react-router'; // Import Outlet component from react-router
 
 const RootLayout = () => {
-  return <Outlet />;
+  return <Outlet />; // Render the Outlet component, which renders the child routes
 };
 
-export default RootLayout;
+export default RootLayout; // Export the RootLayout component

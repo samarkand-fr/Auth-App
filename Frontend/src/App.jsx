@@ -14,19 +14,27 @@ import Cookies from 'js-cookie';
 import RequireAuth from './components/auth/RequireAuth';
 
 function App() {
+  // Check if there is an access token stored in cookies
   const accessToken = Cookies.get('accessToken');
 
+  // Create a browser router
   const router = createBrowserRouter(
+    // Create routes from React elements
     createRoutesFromElements(
+      // Root route with a layout
       <Route path='/' element={<RootLayout />}>
+        {/* Landing page route */}
         <Route index element={<h1>Authentication App</h1>} />
+        {/* Authentication routes */}
         <Route path='auth'>
+          {/* Login route, redirects to dashboard if user is logged in */}
           <Route
             path='login'
             element={
               accessToken ? <Navigate to='/dashboard' replace /> : <Login />
             }
           />
+          {/* Signup route, redirects to dashboard if user is logged in */}
           <Route
             path='signup'
             element={
@@ -34,6 +42,7 @@ function App() {
             }
           />
         </Route>
+        {/* Dashboard route, protected by authentication */}
         <Route
           path='/dashboard'
           element={
@@ -45,6 +54,8 @@ function App() {
       </Route>
     )
   );
+
+  // Render the router provider with the created router
   return <RouterProvider router={router} />;
 }
 

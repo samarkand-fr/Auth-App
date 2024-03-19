@@ -1,46 +1,57 @@
-import { useState } from 'react';
-import styles from '../../styles/Form.module.css';
-import { useRegisterMutation } from '../../redux/app/authApiSlice';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router';
-const SignupForm = () => {
-  const navigate = useNavigate();
+import { useState } from 'react'; 
+import styles from '../../styles/Form.module.css'; // Import styles for the form
+import { useRegisterMutation } from '../../redux/app/authApiSlice'; // Import register mutation from authApiSlice
+import Cookies from 'js-cookie'; // Import Cookies for managing cookies
+import { useNavigate } from 'react-router'; // Import useNavigate hook for navigation
 
+const SignupForm = () => {
+  const navigate = useNavigate(); // Get navigate function for navigation
+
+  // State variables for user inputs and form status
   const [userInputs, setUserInputs] = useState({
     first_name: '',
     last_name: '',
     email: '',
     password: '',
   });
+
+  // Mutation function for user registration and status variables
   const [register, { isError, isLoading, error }] = useRegisterMutation();
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
     try {
+      // Call the register mutation with user inputs
       const { data } = await register({
         first_name: userInputs.first_name,
         last_name: userInputs.last_name,
         email: userInputs.email,
         password: userInputs.password,
       });
+
+      // If registration is successful, set access token in cookies and redirect to dashboard
       const accessToken = data.accessToken;
       if (accessToken) {
-        Cookies.set('accessToken', accessToken);
-        setUserInputs({
+        Cookies.set('accessToken', accessToken); // Set access token in cookies
+        setUserInputs({ // Clear user inputs
           email: '',
           first_name: '',
           last_name: '',
           password: '',
         });
-        navigate('/dashboard');
+        navigate('/dashboard'); // Redirect to dashboard
       }
     } catch (error) {
-      console.log(error);
+      console.log(error); // Log any errors that occur during registration
     }
   };
+
+  // Render the signup form
   return (
     <>
       <form className={styles.form} onSubmit={handleSubmit}>
+        {/* Input fields for first name, last name, email, and password */}
         <fieldset>
           <label htmlFor='first_name'>First Name</label>
           <input
@@ -104,13 +115,15 @@ const SignupForm = () => {
             }
           />
         </fieldset>
+        {/* Submit button */}
         <button type='submit' disabled={isLoading}>
           {isLoading ? 'Submitting...' : 'Create Account'}
         </button>
       </form>
+      {/* Error message for registration errors */}
       {isError && error && <p className={styles.error}>{error.data.message}</p>}
     </>
   );
 };
 
-export default SignupForm;
+export default SignupForm; 
