@@ -1,0 +1,42 @@
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(119, 82, 105);
+    color: #fff;
+    padding: 1rem;
+    z-index: 1000;
+    display: flex; 
+    justify-content: center; 
+  }
+  
+  .navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .navbar li {
+    display: inline-block;
+    margin-right: 3rem;
+    padding: 1rem;
+    font-size: large;
+  }
+  
+  .navbar a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .navbar a:hover {
+    text-decoration:none ;
+    color: rgb(200, 187, 187);
+  }
+  
+  /* Add some padding to the content below the navigation bar */
+  .content {
+    padding-top: 4rem; 
+  }
+  

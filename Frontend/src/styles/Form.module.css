@@ -44,7 +44,7 @@
   color:white;
 }
 
-.form button[type='button'] {
+.form button[type='button']  {
   background-color: transparent;
   color: #c7c4c4;
 }
@@ -66,3 +66,4 @@
 .error {
   color: red;
 }
+

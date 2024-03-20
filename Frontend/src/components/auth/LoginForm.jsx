@@ -1,38 +1,34 @@
 import { useState } from 'react'; 
-import styles from '../../styles/Form.module.css'; // Import styles for the form
-import { useLoginMutation } from '../../redux/app/authApiSlice'; // Import useLoginMutation hook for login mutation
-import Cookies from 'js-cookie'; // Import Cookies for managing cookies
-import { useNavigate } from 'react-router'; // Import useNavigate hook for navigation
+import styles from '../../styles/Form.module.css'; // Importing styles for the form
+import { useLoginMutation } from '../../redux/app/authApiSlice'; // Importing useLoginMutation hook for login mutation
+import Cookies from 'js-cookie'; // Importing Cookies for managing cookies
+import { useNavigate } from 'react-router'; // Importing useNavigate hook for navigation
 
 const LoginForm = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
-  // Initialize state for user inputs (email and password)
-  const [userInputs, setUserInputs] = useState({ email: '', password: '' });
-
-  // Use useLoginMutation hook to get the login mutation function, loading status, and error status
-  const [login, { isError, isLoading, error }] = useLoginMutation();
+  const navigate = useNavigate(); // Initializing useNavigate hook
+  const [userInputs, setUserInputs] = useState({ email: '', password: '' }); // Initializing state for user inputs (email and password)
+  const [login, { isError, isLoading, error }] = useLoginMutation(); // Using useLoginMutation hook to get the login mutation function, loading status, and error status
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); // Preventing default form submission behavior
     try {
-      // Call login mutation with user email and password
+      // Calling login mutation with user email and password
       const { data } = await login({
         email: userInputs.email,
         password: userInputs.password,
       });
-      const accessToken = data.accessToken; // Extract accessToken from response data
+      const accessToken = data.accessToken; // Extracting accessToken from response data
       if (accessToken) {
-        Cookies.set('accessToken', accessToken); // Set accessToken cookie
-        setUserInputs({ email: '', password: '' }); // Clear user inputs
-        navigate('/dashboard'); // Navigate to the dashboard page
+        Cookies.set('accessToken', accessToken); // Setting accessToken cookie
+        setUserInputs({ email: '', password: '' }); // Clearing user inputs
+        navigate('/dashboard'); // Navigating to the dashboard page
       }
     } catch (error) {
-      console.log(error); // Log error if login fails
+      console.log(error); // Logging error if login fails
     }
   };
-
+  
   return (
     <>
       <form className={styles.form} onSubmit={handleSubmit}> {/* Login form */}
@@ -71,10 +67,11 @@ const LoginForm = () => {
           {isLoading ? 'Submitting...' : 'Signin'} {/* Button text based on loading status */}
         </button>
       </form>
-      {/* Display error message if isError is true */}
-      {isError && error && <p className={styles.error}>{error.data.message}</p>}
+      {isError && error && <p className={styles.error}>{error.data.message}</p>} {/* Display error message if isError is true */}
+      {/* Message for users without an account */}
+      <p>Do not have an account? <a href="/auth/signup">Sign up</a></p>
     </>
   );
 };
 
-export default LoginForm; 
+export default LoginForm;
