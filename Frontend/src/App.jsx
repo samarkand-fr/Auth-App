@@ -10,6 +10,7 @@ import RootLayout from './components/RootLayout';
 import Login from './pages/auth/Login';
 import Signup from './pages/auth/Signup';
 import Dashboard from './pages/Dashboard';
+import ErrorPage from './pages/ErrorPage';
 import Cookies from 'js-cookie';
 import RequireAuth from './components/auth/RequireAuth';
 
@@ -51,6 +52,8 @@ function App() {
             </RequireAuth>
           }
         />
+         {/* Error route */}
+         <Route path="*" element={<ErrorPage />} />
       </Route>
     )
   );
